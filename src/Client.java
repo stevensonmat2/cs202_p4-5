@@ -1,6 +1,5 @@
-import java.io.File;
+import java.io.*;
 import java.util.Scanner;
-import java.io.FileNotFoundException;
 
 public class Client extends Utility {
 
@@ -16,7 +15,7 @@ public class Client extends Utility {
 
 
     //main menu; provides user interface to work with functions of Client class
-    public void menu() {
+    public void menu() throws IOException {
 
         int reply;
 
@@ -51,7 +50,7 @@ public class Client extends Utility {
 
                 case (3):
                     //
-//                    display();
+                    read_out();
                     break;
 
                 case (4):
@@ -99,58 +98,54 @@ public class Client extends Utility {
         name = input.nextLine();
         System.out.println();
 
-//        System.out.print("service provider name: ");
-//        provider = input.nextLine();
-//        System.out.println();
-//
-//        System.out.print("base cost: ");
-//        base = input.nextFloat();
-//        System.out.println();
-//        input.nextLine();
+        System.out.print("service provider name: ");
+        provider = input.nextLine();
+        System.out.println();
+
+        System.out.print("base cost: ");
+        base = input.nextFloat();
+        System.out.println();
+        input.nextLine();
 
         switch (type) {
 
             case (1) -> {
-//                System.out.print("maximum delivery weight (lbs): ");
-//                weight = input.nextFloat();
-//                System.out.println();
-//                input.nextLine();
-//
-//                System.out.print("maximum delivery distance (miles): ");
-//                distance = input.nextFloat();
-//                System.out.println();
-//                input.nextLine();
-//
-//                System.out.print("cost per mile: ");
-//                cost_mile = input.nextFloat();
-//                System.out.println();
-//                input.nextLine();
+                System.out.print("maximum delivery weight (lbs): ");
+                weight = input.nextFloat();
+                System.out.println();
+                input.nextLine();
+
+                System.out.print("maximum delivery distance (miles): ");
+                distance = input.nextFloat();
+                System.out.println();
+                input.nextLine();
+
+                System.out.print("cost per mile: ");
+                cost_mile = input.nextFloat();
+                System.out.println();
+                input.nextLine();
 
                 temp = new Delivery(weight, distance, cost_mile, base,
                         name, provider);
-
-//                temp.display();
             }
 
             case (2) -> {
-//                System.out.print("category (repair, moving, etc): ");
-//                category = input.nextLine();
-//                System.out.println();
-//
-//                System.out.print("pay type (hourly, flat rate, etc.): ");
-//                pay_type = input.nextFloat();
-//                System.out.println();
-//                input.nextLine();
+                System.out.print("category (repair, moving, etc): ");
+                category = input.nextLine();
+                System.out.println();
+
+                System.out.print("pay type (hourly, flat rate, etc.): ");
+                pay_type = input.nextLine();
+                System.out.println();
+                input.nextLine();
 
                 temp = new Task(category, pay_type, base, name, provider);
-
             }
         }
 
         this.services.insert(temp);
 
         this.services.display_all();
-
         System.out.println();
     }
 
@@ -190,6 +185,13 @@ public class Client extends Utility {
     public void display_all() {
 
         this.services.display_all();
+    }
+
+
+
+    public void read_out() throws IOException {
+
+        this.services.read_out();
     }
 
 

@@ -37,4 +37,16 @@ public class Task extends Service {
         this.base_cost = base;
         this.pay_type = pay_type;
     }
+
+
+    //returns a string of all field data concatenated with commas so object
+    //can be saved in csv format to external file
+    public String write_csv() {
+
+        String csv = new String(this.service_type + "," + this.name + ","
+                                 + this.provider + "," + this.base_cost + ","
+                                 + this.type + "," + this.pay_type + ",");
+
+        return csv;
+    }
 }

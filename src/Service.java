@@ -5,8 +5,7 @@ abstract public class Service extends Node {
     protected String service_type;
     protected float base_cost;
 
-    //GET RID OF provider, ADD PROVIDER FIELD
-
+    //ADD TRUE MATCH FUNCTION THAT COMPARES MULTIPLE FIELDS
     //constructor
     public Service() {
         name = null;
@@ -87,4 +86,8 @@ abstract public class Service extends Node {
 
         return this.name.compareToIgnoreCase(comparison.name);
     }
+
+
+    //returns a csv string of object's fields
+    abstract String write_csv();
 }

@@ -44,6 +44,15 @@ public class Delivery extends Service {
     }
 
 
+    //returns a string of all field data concatenated with commas so object
+    //can be saved in csv format to external file
+    public String write_csv() {
 
+        String csv = new String(this.service_type + "," + this.name + ","
+                + this.provider + "," + this.base_cost + ","
+                + this.max_weight + "," + this.max_distance + this.cost_per_mile + ",");
+
+        return csv;
+    }
 
 }

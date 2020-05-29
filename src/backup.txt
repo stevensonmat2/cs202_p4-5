@@ -1,0 +1,2 @@
+delivery,food delivery,jimmy's,3,50,5.0,1.99,
+task,handy work,joe's,25,repair,hourly,

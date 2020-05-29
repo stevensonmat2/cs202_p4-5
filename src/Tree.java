@@ -1,3 +1,11 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
+//ADD RETRIEVE; RETURNS OBJECT FROM LINKED LIST
+
 public class Tree extends Utility {
 
     private Link_List root;
@@ -264,6 +272,53 @@ public class Tree extends Utility {
         //return value of recursive calls
         return val;
     }
+
+
+    //writes contents of tree to external file
+    public boolean read_out() throws IOException {
+
+        if (this.root == null) {
+
+            return false;
+        }
+
+        //get file to write to
+        File text = new File("src/services.txt");
+
+        //create BufferedWriter object with file
+        BufferedWriter writer = new BufferedWriter(new FileWriter(text));
+
+        //call recursive function to write to file
+        read_out(writer, this.root);
+
+        //flush writer to save to disk
+        writer.close();
+
+        return true;
+    }
+
+
+    //recursive function to traverse tree inorder and write out object data to
+    //external file
+    public void read_out(BufferedWriter writer, Link_List root)
+                                            throws IOException {
+        //unwind if node is null
+        if (root == null) {
+
+            return;
+        }
+
+        //traverse all the way left
+        read_out(writer, (Link_List)root.get_left());
+
+        //call Link_List node object's write out function, passing in the writer
+        root.write_csv(writer);
+
+        //traverse all the way right
+        read_out(writer, (Link_List)root.get_right());
+    }
 }
+
+
 
 

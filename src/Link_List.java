@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+//ADD RETRIEVE; SUPPORT TWO STRINGS
 public class Link_List extends Node {
 
     private Service head;
@@ -175,4 +179,38 @@ public class Link_List extends Node {
         return display((Service) head.get_next());
     }
 
+
+    //wrapper; call recursive function to write data for all objects in list
+    //to external file
+    public void write_csv(BufferedWriter writer) throws IOException {
+
+        //exit if head is null
+        if (this.head == null) {
+
+            return;
+        }
+
+        //call recursive function
+        write_csv(writer, this.head);
+    }
+
+
+    //recursive function traverses linked list and passes the return value of
+    //each object's write to csv file to the writer object's write function
+    protected void write_csv(BufferedWriter writer, Service head) throws IOException {
+
+        //if head is null, unwind
+        if (head == null) {
+
+            return;
+        }
+
+        //call writer's write function and pass in each object's write to csv
+        //return value
+        writer.write(head.write_csv());
+        writer.newLine();
+
+        //traverse to next object
+        write_csv(writer, (Service)head.get_next());
+    }
 }
