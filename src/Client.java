@@ -1,10 +1,20 @@
+/*
+Matt Stevenson
+CS202 Program #4
+5/29/2020
+
+this file contains the Client class. this class provides the main user
+interface for working with Service objects. it has a Tree object for saving
+and retrieving Service objects.
+
+ */
 import java.io.*;
 import java.util.Scanner;
 
 public class Client extends Utility {
 
+    //an AVL tree member for storing Service objects
     private Tree services;
-    private Array_List searches;
 
 
     //constructor
@@ -14,76 +24,187 @@ public class Client extends Utility {
     }
 
 
-    //main menu; provides user interface to work with functions of Client class
-    public void menu() throws IOException {
+    //top level menu; prompts user to select business menu or customer menu
+    public void main_menu() throws IOException {
 
         int reply;
 
+        //output menu options until user exits
         do {
 
             System.out.println("Welcome");
+            System.out.println();
+            System.out.println("select a role: ");
+            System.out.println();
+            System.out.println("(1) business (add service)");
+            System.out.println("(2) customer (search for services)");
+            System.out.println();
+            System.out.print("enter command: ");
+
+            reply = input.nextInt();
+            input.nextLine();
+            System.out.println();
+
+            //call method based on user input
+            switch (reply) {
+
+                //add a new Service
+                case (1) -> b_menu();
+
+                //display all services
+                case (2) -> c_menu();
+
+            }
+
+        } while (reply != 0);//loop until user enters '0'
+    }
+
+
+    //main menu; provides user interface to work with functions of Client class
+    public void b_menu() throws IOException {
+
+        //stores user input
+        int reply;
+
+        //output menu options until user exits
+        do {
+
             System.out.println();
             System.out.println("choose a command: ");
             System.out.println();
             System.out.println("(1) add service");
             System.out.println("(2) display services");
-            System.out.println("(3) display service");
-            System.out.println("(4) edit service");
+            System.out.println("(3) write to file");
+            System.out.println("(4) edit service's cost");
             System.out.println("(0) exit");
             System.out.println();
             System.out.print("enter command: ");
 
             reply = input.nextInt();
+            input.nextLine();
             System.out.println();
 
+            //call method based on user input
             switch (reply) {
 
-                case (1):
-                    //
-                    add();
-                    break;
+                //add a new Service
+                case (1) -> add();
 
-                case (2):
-                    //
-                    display_all();
-                    break;
+                //display all services
+                case (2) -> display_all();
 
-                case (3):
-                    //
-                    read_out();
-                    break;
+                //save Services in tree to file
+                case (3) -> read_out();
 
-                case (4):
-                    //
-//                    edit();
-                    break;
-
-                case (5):
-
-                    break;
-
+                //edit the costs of a Service object
+                case (4) -> edit_cost();
             }
 
-        } while (reply != 0);
+        } while (reply != 0);//loop until user enters '0'
     }
+
+
+
+    public void c_menu() throws IOException {
+
+        //stores user input
+        int reply;
+
+        //output menu options until user exits
+        do {
+
+            System.out.println();
+            System.out.println("choose a command: ");
+            System.out.println();
+            System.out.println("(1) search Delivery services");
+            System.out.println("(2) search Task services");
+            System.out.println("(3) write to file");
+            System.out.println("(4) edit service's cost");
+            System.out.println("(0) exit");
+            System.out.println();
+            System.out.print("enter command: ");
+
+            reply = input.nextInt();
+            input.nextLine();
+            System.out.println();
+
+            //call method based on user input
+            switch (reply) {
+
+                //add a new Service
+                case (1) -> add();
+
+                //display all services
+                case (2) -> display_all();
+
+                //save Services in tree to file
+                case (3) -> read_out();
+
+                //edit the costs of a Service object
+                case (4) -> edit_cost();
+            }
+
+        } while (reply != 0);//loop until user enters '0'
+    }
+
+    //SEARCH BY NAME/PROVIDER, TYPE, AND
+    //search options menu
+//    public void search() {
+//
+//        do {
+//
+//            System.out.println();
+//            System.out.println("choose a command: ");
+//            System.out.println();
+//            System.out.println("(1) display all Delivery");
+//            System.out.println("(2) display all Task");
+//            System.out.println("(3) search by price range");
+//            System.out.println("(4) edit service's cost");
+//            System.out.println("(0) exit");
+//            System.out.println();
+//            System.out.print("enter command: ");
+//
+//            reply = input.nextInt();
+//            input.nextLine();
+//            System.out.println();
+//
+//            //call method based on user input
+//            switch (reply) {
+//
+//                //add a new Service
+//                case (1) -> add();
+//
+//                //display all services
+//                case (2) -> display_all();
+//
+//                //save Services in tree to file
+//                case (3) -> read_out();
+//
+//                //edit the costs of a Service object
+//                case (4) -> edit_cost();
+//            }
+//
+//        } while (reply != 0);//loop until user enters '0'
+//    }
 
 
     //prompts user for info to create new Service object and inserts into
     //Client's tree member
     public void add() {
 
+        //variables to hold user input; used to create Service object
         int type;
-        float weight = 0;
-        float distance = 0;
-        float cost_mile = 0;
-        float base = 0;
+        float weight;
+        float distance;
+        float cost_mile;
+        float base;
         String name;
-        String provider = null;
-        String category = null;
-        String pay_type = null;
+        String provider;
+        String category;
+        String pay_type;
         Service temp = null;
 
-        do {
+        do {//prompt user for type of Service until valid input given
 
             System.out.println("what type of service?");
             System.out.println();
@@ -94,6 +215,7 @@ public class Client extends Utility {
 
         } while (type < 1 || type > 2);
 
+        //prompt user for member data common to all derived classes
         System.out.print("service name: ");
         name = input.nextLine();
         System.out.println();
@@ -107,6 +229,7 @@ public class Client extends Utility {
         System.out.println();
         input.nextLine();
 
+        //prompt user for derived class specific data
         switch (type) {
 
             case (1) -> {
@@ -125,6 +248,7 @@ public class Client extends Utility {
                 System.out.println();
                 input.nextLine();
 
+                //create new Delivery object with user input
                 temp = new Delivery(weight, distance, cost_mile, base,
                         name, provider);
             }
@@ -139,59 +263,116 @@ public class Client extends Utility {
                 System.out.println();
                 input.nextLine();
 
+                //create new Task object with user input
                 temp = new Task(category, pay_type, base, name, provider);
             }
         }
 
+        //add new Service to tree
         this.services.insert(temp);
 
+        //display all objects
         this.services.display_all();
         System.out.println();
     }
 
 
-    //allows user to edit a Service object
-    public void edit() {
+    //allows user to edit a Service object's costs
+    public void edit_cost() {
 
-    String service;
-    Service temp;
+        //variables to hold identifiers
+        String name;
+        String provider;
 
-    System.out.print("enter name of service to edit: ");
-    service = input.nextLine();
+        //variables to hold new values
+        float new_base;
+        float cost_mile;
+        String pay_type;
 
-    //set temp to return value of Tree's function
-//            temp = services.retrieve(service);
-//
-//            System.out.println("enter new name: ");
-//            service = input.nextLine();
-//            temp.set_name(service);
-//        }
-//
-//        if (!services.add(temp)) {
-//
-//            System.out.println("insertion failed!");
-//            System.out.println();
-//
-//        }
-//
-//        else {
-//
-//            System.out.println("service added!");
-//            System.out.println();
+        //prompt user for info to find object to eidt
+        System.out.print("service name: ");
+        name = input.nextLine();
+        System.out.println();
+
+        System.out.print("service provider name: ");
+        provider = input.nextLine();
+        System.out.println();
+
+        //find match in tree and save returned object
+        Service temp = this.services.match(name, provider);
+
+        //if no match found, alert user and exit
+        if (temp == null) {
+
+            System.out.println("no match found");
+            System.out.println();
+
+            return;
+        }
+
+        //else, prompt for new base cost
+        System.out.print("enter new base cost: ");
+        new_base = input.nextFloat();
+        input.nextLine();
+        System.out.println();
+
+        //if found object is delivery type:
+        if (temp.type_check("delivery")) {
+
+            //save temp as a Delivery object
+            Delivery obj = (Delivery)temp;
+
+            //prompt for Delivery specific member data
+            System.out.print("enter new cost per mile: ");
+            cost_mile = input.nextFloat();
+            input.nextLine();
+            System.out.println();
+
+            //call found object's set cost function with new values
+            //**overloads base class function
+            obj.set_cost(new_base, cost_mile);
+        }
+
+        else {
+
+            //save temp as a Task object
+            Task obj = (Task)temp;
+
+            //prompt user for Task specific member data
+            System.out.print("enter new pay type (hourly, flat fee, etc.): ");
+            pay_type = input.nextLine();
+            System.out.println();
+
+            //call found object's set cost function with new values
+            //**overloads base class function
+            obj.set_cost(new_base, pay_type);
+
+        }
+
+        System.out.println();
+        System.out.println("*service updated*");
+        System.out.println();
     }
 
 
     //calls Client's tree's display all function to display all object's data
     public void display_all() {
 
-        this.services.display_all();
+        if (!this.services.display_all()) {
+
+            System.out.println("no services to display");
+        }
     }
 
 
-
+    //calls tree objects read out function
     public void read_out() throws IOException {
 
-        this.services.read_out();
+        if (!this.services.read_out()) {
+
+            System.out.println("nothing to save");
+            System.out.println();
+        }
     }
 
 

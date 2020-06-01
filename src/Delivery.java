@@ -1,5 +1,17 @@
+/*
+Matt Stevenson
+CS202 Program #4
+5/29/2020
+
+this file contains the Delivery class. it is derived from Service and contains
+functions that overload base class functions and function that override base
+class functions.
+
+ */
+
 public class Delivery extends Service {
 
+    //unique members
     private float max_weight;
     private float max_distance;
     private float cost_per_mile;
@@ -9,6 +21,17 @@ public class Delivery extends Service {
     public Delivery() {
 
         super();
+    }
+
+
+    //copy constructor
+    public Delivery(Delivery to_copy) {
+
+        super(to_copy);
+
+        this.max_weight = to_copy.max_weight;
+        this.max_distance = to_copy.max_distance;
+        this.cost_per_mile = to_copy.cost_per_mile;
     }
 
 
@@ -50,7 +73,8 @@ public class Delivery extends Service {
 
         String csv = new String(this.service_type + "," + this.name + ","
                 + this.provider + "," + this.base_cost + ","
-                + this.max_weight + "," + this.max_distance + this.cost_per_mile + ",");
+                + this.max_weight + "," + this.max_distance + ","
+                + this.cost_per_mile + ",");
 
         return csv;
     }

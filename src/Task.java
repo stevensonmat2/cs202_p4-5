@@ -1,5 +1,16 @@
+/*
+Matt Stevenson
+CS202 Program #4
+5/29/2020
+
+this file contains the Task class. it is derived from Service and contains
+functions that overload base class functions and function that override base
+class functions.
+
+ */
 public class Task extends Service {
 
+    //unique members
     private String type;
     private String pay_type;
 
@@ -8,6 +19,16 @@ public class Task extends Service {
     public Task() {
 
         super();
+    }
+
+
+    //copy constructor
+    public Task(Task to_copy) {
+
+        super(to_copy);
+
+        this.type = to_copy.type;
+        this.pay_type = to_copy.pay_type;
     }
 
 

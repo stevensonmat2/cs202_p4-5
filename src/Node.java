@@ -1,6 +1,12 @@
+/*
+Matt Stevenson
+CS202 Program #4
+5/29/2020
 
-//Node class; provides functionality to derived classes for constructing linked
-//lists and trees
+Node class; provides functionality to derived classes for constructing linked
+lists and trees
+*/
+
 abstract class Node extends Utility {
 
     //references for tree and list construction

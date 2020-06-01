@@ -1,17 +1,25 @@
+/*
+Matt Stevenson
+CS202 Program #4
+5/29/2020
+
+this file contains the Tree class. it is an AVL tree, and supports insertion,
+search, display, and retrieval. this class can also write its object data
+to an external file.
+
+ */
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 
-//ADD RETRIEVE; RETURNS OBJECT FROM LINKED LIST
 
 public class Tree extends Utility {
 
     private Link_List root;
 
-    //MOVE UPDATE HEIGHT AND GET BALANCE TO NODE CLASS
-    //IMPLEMENT NODE FUNCTIONS IN LIST CLASS TO AVOID CASTING
+
     //calculates and returns updated height of argument
     public int update_height(Link_List node) {
 
@@ -73,8 +81,8 @@ public class Tree extends Utility {
     //right rotates subtree about argument object
     public Link_List right_rotate(Link_List root) {
 
-        System.out.println("rotate right");
-        System.out.println();
+//        System.out.println("rotate right");
+//        System.out.println();
 
         //save root's left
         Link_List new_root = (Link_List)root.get_left();
@@ -99,8 +107,8 @@ public class Tree extends Utility {
     //left rotates subtree about argument object
     public Link_List left_rotate(Link_List root) {
 
-        System.out.println("rotate left");
-        System.out.println();
+//        System.out.println("rotate left");
+//        System.out.println();
 
         //save root's right as new root
         Link_List new_root = (Link_List)root.get_right();
@@ -126,9 +134,6 @@ public class Tree extends Utility {
     public void insert(Service to_add) {
 
         this.root = insert(this.root, to_add);
-//        System.out.println("current root: ");
-//        this.root.display();
-//        System.out.println();
     }
 
 
@@ -232,6 +237,56 @@ public class Tree extends Utility {
     }
 
 
+    //wrapper; calls function to search tree for a list containing an object
+    //that matches the argument strings; returns object if match, else null
+    public Service match(String name, String provider) {
+
+        //if tree is empty, return null
+        if (this.root == null) {
+
+            return null;
+        }
+
+        //return value of recursive search
+        return match(name, provider, this.root);
+    }
+
+
+    //recursive function searches tree for list containing matching object;
+    //returns matching object or null if none found
+    protected Service match(String name, String provider, Link_List root) {
+
+        //variable to store found object
+        Service found = null;
+
+        //if root is null, return null
+        if (root == null) {
+
+            return null;
+        }
+
+        //see if root contains matching object
+        found = root.match(name, provider);
+
+        //if root does not contain match:
+        if (found == null) {
+
+            //check name against root's objects to determine
+            //left or right traversal
+            if (root.compare(name) > 0) {
+
+                //travers left
+                found = match(name, provider, (Link_List)root.get_left());
+            }
+
+            //traverse right
+            else found = match(name, provider, (Link_List)root.get_right());
+        }
+
+        //return found once a match is found or all nodes checked
+        return found;
+    }
+
     //wrapper; if tree not empty, calls recursive display function and
     //returns true; otherwise returns false
     public boolean display_all() {
@@ -312,6 +367,7 @@ public class Tree extends Utility {
         read_out(writer, (Link_List)root.get_left());
 
         //call Link_List node object's write out function, passing in the writer
+//        writer.newLine();
         root.write_csv(writer);
 
         //traverse all the way right

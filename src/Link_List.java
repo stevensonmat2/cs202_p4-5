@@ -1,12 +1,24 @@
+/*
+Matt Stevenson
+CS202 Program #4
+5/29/2020
+
+this file contains the Link List class. this class provides all functionality
+to manage linked lists of Service objects.
+ */
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-//ADD RETRIEVE; SUPPORT TWO STRINGS
+
+
 public class Link_List extends Node {
 
+    //head of linked list
     private Service head;
 
 
+    //constructor
     public Link_List() {
         this.head = null;
     }
@@ -15,32 +27,42 @@ public class Link_List extends Node {
     //wrapper; adds argument object to list
     public boolean add(Service to_add) {
 
-        //if list is empty, set argument as head of list
+        //variable to hold new Service object
+        Service temp;
+
+        //check type of argument object and create new copy
+        if (to_add.type_check("delivery")) {
+
+            temp = new Delivery((Delivery)to_add);
+        }
+
+        else temp = new Task((Task)to_add);
+
+        //if list is empty, set new object as head of list
         if (this.head == null) {
 
-            this.head = to_add;
+            this.head = temp;
 
             return true;
         }
 
-        //if argument comes before head, insert argument at head of list
-        if (this.head.less_than(to_add)) {
+        //if new object comes before head, insert at head of list
+        if (this.head.compare_provider(temp) > 0) {
 
-            to_add.set_next(this.head);
-            this.head = to_add;
+            temp.set_next(this.head);
+            this.head = temp;
 
             return true;
         }
 
         //else, call recursive function to insert argument into list and set
         //head to downcasted return value
-        this.head = add((Service) this.head, to_add);
+        this.head = add(this.head, temp);
 
         return true;
     }
 
-    //FIX SO FUNCTION CHECKS FIELD OTHER THAN NAME; IMPLEMENT NEW
-    //COMPARE FUNCTION IN SERVICE
+
     //recursively finds insertion point for argument
     //and returns updated list
     protected Service add(Service head, Service to_add) {
@@ -49,7 +71,7 @@ public class Link_List extends Node {
         if (head.get_next() == null) {
 
             //if argument comes after current Service or is a match
-            if (to_add.greater_than(head) || to_add.match(head)) {
+            if (head.compare_provider(to_add) <= 0) {
 
                 //insert after current
                 head.set_next(to_add);
@@ -63,7 +85,7 @@ public class Link_List extends Node {
         head.set_next(add((Service)head.get_next(), to_add));
 
         //after recursive call, compare argument to current
-        if (head.greater_than(to_add)) {
+        if (head.compare_provider(to_add) < 0) {
 
             //if current comes before argument, insert argument between current
             //and current's next
@@ -75,72 +97,57 @@ public class Link_List extends Node {
     }
 
 
-    //wrapper; removes Service matching argument from list
-    public boolean remove(String rem) {
+    //wrapper; returns Service object from list if its fields match the
+    // argument Strings, otherwise returns null
+    public Service match(String name, String provider) {
 
-        //boolean passed to recursive argument; stores success or fail of
-        //recursive removal
-        boolean[] removed = {false};
-
-        //if list empty, exit with fail
+        //if list is empty, return null
         if (this.head == null) {
 
-            return false;
+            return null;
         }
 
-        //if first item in list matches, remove and exit
-        if (this.head.match(rem)) {
+        //if first item in list does not match name, return null
+        if (!this.head.match(name)) {
 
-            //downcast return of head's next
-            this.head = (Service) this.head.get_next();
-
-            return true;
+            return null;
         }
 
-        //else, call recursive function to remove matching object and set head
-        //to return value
-        this.head = remove(this.head, rem, removed);
-
-        //return boolean as modified by recursive function to indicate success
-        //or failure of removal
-        return removed[0];
+        //return result of recursive  function
+        return match(name, provider, this.head);
     }
 
 
-    //recursively searches list for match; if found, removes match from list
-    protected Service remove(Service head, String rem, boolean[] removed) {
+    //recursive function traverses list and checks each object for a match
+    //against arguments; returns the object if it matches, else null
+    protected Service match(String name, String provider, Service head) {
 
-        //if end of list, check for match
-        if (head.get_next() == null) {
+        //if end of list, return null
+        if (head == null) {
 
-            //if match, remove, set boolean to true, and return null
-            if (head.match(rem)) {
+            return null;
+        }
 
-                removed[0] = true;
-                return null;
-            }
+        //if object's fields match arguments, return object
+        if (head.match(name, provider)) {
 
-            //else return current
             return head;
         }
 
-        //traverse to end of list and reconnect as stack unwinds
-        head.set_next(remove((Service) head.get_next(), rem, removed));
-
-        //if match, remove, set boolean to true and return current's next
-        if (head.match(rem)) {
-
-            removed[0] = true;
-            return (Service) head.get_next();
-        }
-
-        //else return current
-        return head;
+        //recursively traverse
+        return match(name, provider, (Service)head.get_next());
     }
 
 
     //compares head object with argument
     public int compare(Service comparison) {
+
+        return this.head.compare(comparison);
+    }
+
+
+    //compares head object with argument
+    public int compare(String comparison) {
 
         return this.head.compare(comparison);
     }
@@ -208,7 +215,11 @@ public class Link_List extends Node {
         //call writer's write function and pass in each object's write to csv
         //return value
         writer.write(head.write_csv());
-        writer.newLine();
+
+        if (head.get_next() != null) {
+
+            writer.newLine();
+        }
 
         //traverse to next object
         write_csv(writer, (Service)head.get_next());

@@ -1,16 +1,35 @@
-abstract public class Service extends Node {
+/*
+Matt Stevenson
+CS202 Program #4
+5/29/2020
 
+this file contains the abstract base class Service. this provides the common
+functionality for derived classes Delivery and Task.
+
+ */
+
+abstract public class Service extends Node {
     protected String name;
     protected  String provider;
     protected String service_type;
     protected float base_cost;
 
-    //ADD TRUE MATCH FUNCTION THAT COMPARES MULTIPLE FIELDS
+
     //constructor
     public Service() {
         name = null;
         provider = null;
         service_type = null;
+    }
+
+
+    //copy constructor
+    public Service(Service to_copy) {
+
+        this.name = to_copy.name;
+        this.provider = to_copy.provider;
+        this.service_type = to_copy.service_type;
+        this.base_cost = to_copy.base_cost;
     }
 
 
@@ -42,12 +61,10 @@ abstract public class Service extends Node {
     }
 
 
-    //sets base cost to argument
-    public boolean set_cost(float cost) {
+//    sets base cost to argument
+    public void set_cost(float cost) {
 
         this.base_cost = cost;
-
-        return true;
     }
 
 
@@ -68,14 +85,31 @@ abstract public class Service extends Node {
     //returns true calling object's name value is same as argument
     public boolean match(String compare) {
 
-        return this.name.compareTo(compare) == 0;
+        String current_name = this.name.replaceAll("\\s","");
+        String c_name = compare.replaceAll("\\s","");
+
+        return current_name.equalsIgnoreCase(c_name);
+    }
+
+
+    //returns true if calling object's name and provider fields match arguments
+    public boolean match (String a_name, String a_provider) {
+
+        String current_name = this.name.replaceAll("\\s","");
+        String current_prov = this.provider.replaceAll("\\s","");
+        String c_name = a_name.replaceAll("\\s","");
+        String c_provider = a_provider.replaceAll("\\s","");
+
+        System.out.println("hello" + c_name);
+
+        return current_name.equalsIgnoreCase(c_name) && current_prov.equalsIgnoreCase(c_provider);
     }
 
 
     //returns true calling object's name value is same as argument's
     public boolean match(Service compare) {
 
-        return this.name.compareTo(compare.name) == 0;
+        return this.name.compareToIgnoreCase(compare.name) == 0;
     }
 
 
@@ -87,6 +121,28 @@ abstract public class Service extends Node {
         return this.name.compareToIgnoreCase(comparison.name);
     }
 
+
+    //returns difference of calling object's name value and argument's;
+    //positive numbers mean argument is ordered before calling object;
+    //negative means argument is ordered after calling object
+    public int compare(String comparison) {
+
+        return this.name.compareToIgnoreCase(comparison);
+    }
+
+
+    //compares object's provider with argument
+    public int compare_provider(Service comparison) {
+
+        return this.provider.compareToIgnoreCase(comparison.provider);
+    }
+
+
+    //compares argument to object's type and return true if matching
+    public boolean type_check(String comparison) {
+
+        return this.service_type.equalsIgnoreCase(comparison);
+    }
 
     //returns a csv string of object's fields
     abstract String write_csv();

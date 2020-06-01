@@ -1,2 +1,1 @@
-delivery,food delivery,jimmy's,3.0,50.0,5.01.99,
-task,handy work,joe's,25.0,repair,hourly,
+delivery,food delivery,jimmy's,3.0,50.0,5.0,1.99,delivery,grocery delivery,matt's,5.0,50.0,5.0,0.99,task,handy work,joe's,25.0,repair,hourly,
