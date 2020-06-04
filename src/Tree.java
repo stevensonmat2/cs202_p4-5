@@ -301,6 +301,46 @@ public class Tree extends Utility {
     }
 
 
+    public boolean display_match(String match) {
+
+        if (root == null) {
+
+            return false;
+        }
+
+        //call recursive function
+        return display_match(match, this.root);
+    }
+
+
+    //traverses tree inorder and calls display function for each object in tree
+    protected boolean display_match(String match, Link_List root) {
+
+        //store return value of recursive calls
+        boolean val;
+
+        //unwind when null reference encountered
+        if (root == null) {
+
+            return true;
+        }
+
+        //traverse left
+        val = display_match(match, (Link_List)root.get_left());
+
+        //call display function once left-most object in branch encountered
+        root.display_type(match);
+//        System.out.println("height: " + root.get_height());
+//        System.out.println();
+
+        //traverse right
+        val = display_match(match, (Link_List)root.get_right());
+
+        //return value of recursive calls
+        return val;
+    }
+
+
     //traverses tree inorder and calls display function for each object in tree
     protected boolean display_all(Link_List root) {
 

@@ -116,10 +116,10 @@ public class Client extends Utility {
             System.out.println();
             System.out.println("choose a command: ");
             System.out.println();
-            System.out.println("(1) search Delivery services");
-            System.out.println("(2) search Task services");
-            System.out.println("(3) write to file");
-            System.out.println("(4) edit service's cost");
+            System.out.println("(1) display all Delivery services");
+            System.out.println("(2) display all Task services");
+            System.out.println("(3) filtered search");
+            System.out.println("(4) display recent filtered searches");
             System.out.println("(0) exit");
             System.out.println();
             System.out.print("enter command: ");
@@ -132,10 +132,10 @@ public class Client extends Utility {
             switch (reply) {
 
                 //add a new Service
-                case (1) -> add();
+                case (1) -> display_type(reply);
 
                 //display all services
-                case (2) -> display_all();
+                case (2) -> display_type(reply);
 
                 //save Services in tree to file
                 case (3) -> read_out();
@@ -149,44 +149,70 @@ public class Client extends Utility {
 
     //SEARCH BY NAME/PROVIDER, TYPE, AND
     //search options menu
-//    public void search() {
-//
-//        do {
-//
-//            System.out.println();
-//            System.out.println("choose a command: ");
-//            System.out.println();
-//            System.out.println("(1) display all Delivery");
-//            System.out.println("(2) display all Task");
-//            System.out.println("(3) search by price range");
-//            System.out.println("(4) edit service's cost");
-//            System.out.println("(0) exit");
-//            System.out.println();
-//            System.out.print("enter command: ");
-//
-//            reply = input.nextInt();
-//            input.nextLine();
-//            System.out.println();
-//
-//            //call method based on user input
-//            switch (reply) {
-//
-//                //add a new Service
-//                case (1) -> add();
-//
-//                //display all services
-//                case (2) -> display_all();
-//
-//                //save Services in tree to file
-//                case (3) -> read_out();
-//
-//                //edit the costs of a Service object
-//                case (4) -> edit_cost();
-//            }
-//
-//        } while (reply != 0);//loop until user enters '0'
-//    }
+    public void search() {
 
+        int reply;
+
+        do {
+
+            System.out.println();
+            System.out.println("choose a command: ");
+            System.out.println();
+            System.out.println("(1) display all Delivery");
+            System.out.println("(2) display all Task");
+            System.out.println("(3) filtered search");
+            System.out.println("(4) display recent searches");
+            System.out.println("(0) exit");
+            System.out.println();
+            System.out.print("enter command: ");
+
+            reply = input.nextInt();
+            input.nextLine();
+            System.out.println();
+
+            //call method based on user input
+            switch (reply) {
+
+                //add a new Service
+                case (1) -> display_type(reply);
+
+                //display all services
+                case (2) -> display_type(reply);
+
+                //save Services in tree to file
+//                case (3) -> read_out();
+
+                //edit the costs of a Service object
+//                case (4) -> edit_cost();
+            }
+
+        } while (reply != 0);//loop until user enters '0'
+    }
+
+
+    //displays all Delivery objects in tree
+    public void display_type(int type) {
+
+        String match;
+
+        if (type == 1) {
+
+            match = "delivery";
+        }
+
+        else match = "task";
+
+        if (!this.services.display_match(match)) {
+
+            System.out.println("no Services to display");
+        }
+    }
+
+
+    //displays all Task objects in tree
+
+
+    //BUSINESS USER FUNCTIONS
 
     //prompts user for info to create new Service object and inserts into
     //Client's tree member

@@ -187,6 +187,44 @@ public class Link_List extends Node {
     }
 
 
+    //wrapper; if list is empty, returns false; otherwise, calls
+    //recursive function to traverse list and call each object's display
+    public boolean display_type(String type) {
+
+        //if list empty, return false
+        if (this.head == null) {
+
+            return false;
+        }
+
+        //return value of recursive function
+        return display_type(type, this.head);
+    }
+
+
+    //recursively traverses list and calls each object display function;
+    //returns true when end of list reached
+    protected boolean display_type(String type, Service head) {
+
+        //return true when end of list reached
+        if (head == null) {
+
+            return true;
+        }
+
+        //call object's display
+
+        if (head.type_check(type)) {
+
+            head.display();
+            System.out.println();
+        }
+
+        //traverse to next object in list
+        return display_type(type, (Service) head.get_next());
+    }
+
+
     //wrapper; call recursive function to write data for all objects in list
     //to external file
     public void write_csv(BufferedWriter writer) throws IOException {

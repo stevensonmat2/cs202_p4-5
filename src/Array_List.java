@@ -1,8 +1,11 @@
 public class Array_List extends Utility {
 
+
+
     private Link_List[] array;
 
 
+    //constructor
     public Array_List() {
 
         array = null;
@@ -15,27 +18,74 @@ public class Array_List extends Utility {
     }
 
 
+    //creates and returns hash value based on String argument
     protected int hasher(String to_hash)  {
 
+        //start hash at 1 for multiplication
         int hash = 1;
 
+        //convert String argument to array of characters for iteration
         char [] hashing = to_hash.toCharArray();
 
+        //multiply each character's value by the previous character's
         for (int i=0; i < hashing.length; ++i) {
 
            hash *= hashing[i];
         }
 
-        return hash /= this.array.length;
-
-
+        //return the modulus of the product by the array's length
+        return hash % this.array.length;
     }
 
 
-//    public boolean add(Node to_add) {
-//
-//
-//    }
+    //adds argument list to member array if array is not full
+    public boolean add(Service to_add) {
+
+        int i = hasher(to_add.hashable_id());
+
+        //check index matching hash value; if empty, add new link list
+        if (array[i] == null) {
+
+            array[i] = new Link_List();
+        }
+
+        //insert Service object to link list
+        array[i].add(to_add);
+
+        return true;
+    }
+
+
+    //traverses array of lists and calls each list's display function
+    public void display_all() {
+
+        int i = 0;
+
+        display_all(i);
+    }
+
+
+    //recursively traverses array and calls each list's display function
+    private void display_all(int i) {
+
+        //if index is beyond bounds of array, exit
+        if (i >= this.array.length) {
+
+            return;
+        }
+
+        //if current index has a list, call its display function
+        if (this.array[i] != null) {
+
+            this.array[i].display();
+        }
+
+        //increment index value
+        ++i;
+
+        //recursively traverse
+        display_all(i);
+    }
 
 }
     

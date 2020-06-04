@@ -144,6 +144,17 @@ abstract public class Service extends Node {
         return this.service_type.equalsIgnoreCase(comparison);
     }
 
+
+    //returns object's name and provider as a single String
+    public String hashable_id() {
+
+        //concatenate the Service's name and provider
+        String retrieve = this.name + this.provider;
+
+        return retrieve;
+    }
+
+
     //returns a csv string of object's fields
     abstract String write_csv();
 }
